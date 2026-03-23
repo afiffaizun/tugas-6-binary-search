@@ -1,0 +1,26 @@
+Buatkan program Java menggunakan struktur data Binary Search Tree (BST) dengan gaya penulisan yang sederhana dan mudah dipahami oleh pemula.
+
+Program harus bisa menyimpan data berupa ID (integer) dan Nama (string), di mana ID digunakan sebagai acuan utama dalam BST.
+
+Fitur yang harus ada:
+
+1. Tambah data (input ID dan Nama secara manual dari user)
+2. Cari data berdasarkan ID
+3. Hapus data berdasarkan ID
+4. Traversal data:
+
+   * Inorder
+   * Preorder
+   * Postorder
+
+Tambahkan menu interaktif menggunakan Scanner agar user bisa memilih fitur (tambah, cari, hapus, traversal, keluar).
+
+Gunakan struktur kode yang rapi dan terpisah:
+
+* Class Node
+* Class BST (berisi semua operasi)
+* Class Main (untuk menjalankan program)
+
+Gunakan konsep rekursi untuk operasi BST, dan berikan komentar singkat di bagian penting agar mudah dipelajari.
+
+Buat output yang jelas dan mudah dibaca, misalnya menampilkan "ID: ..., Nama: ...".
