@@ -1,6 +1,7 @@
 # Class Node
 class Node:
-    def __init__(self, id, nama):
+    def __init__(self, id, nama): #parameter
+        #atribut
         self.id = id
         self.nama = nama
         self.left = None
@@ -12,7 +13,7 @@ class BST:
     def __init__(self):
         self.root = None
 
-    # ================= TAMBAH DATA =================
+    # TAMBAH DATA 
     def insert(self, root, id, nama):
         # Jika kosong, buat node baru
         if root is None:
@@ -21,13 +22,14 @@ class BST:
         # Rekursi ke kiri
         if id < root.id:
             root.left = self.insert(root.left, id, nama)
+
         # Rekursi ke kanan
         elif id > root.id:
             root.right = self.insert(root.right, id, nama)
 
         return root
 
-    # ================= CARI DATA =================
+    # CARI DATA 
     def search(self, root, id):
         # Jika kosong atau ditemukan
         if root is None or root.id == id:
@@ -38,7 +40,7 @@ class BST:
 
         return self.search(root.right, id)
 
-    # ================= HAPUS DATA =================
+    # HAPUS DATA 
     def delete(self, root, id):
         if root is None:
             return root
@@ -77,7 +79,7 @@ class BST:
             root = root.left
         return root
 
-    # ================= TRAVERSAL =================
+    # TRAVERSAL 
     def inorder(self, root):
         if root:
             self.inorder(root.left)
@@ -123,7 +125,8 @@ def main():
             hasil = tree.search(tree.root, id)
 
             if hasil:
-                print("Data ditemukan:", hasil.id, "-", hasil.nama)
+                print("Data ditemukan")
+                print("ID: ", hasil.id, " - Nama : ", hasil.nama)
             else:
                 print("Data tidak ditemukan.")
 

@@ -19,7 +19,7 @@ class Node {
 class BST {
     Node root;
 
-    // ================= TAMBAH DATA =================
+    // TAMBAH DATA 
     Node insert(Node root, int id, String nama) {
         // Jika kosong, buat node baru
         if (root == null) {
@@ -38,7 +38,7 @@ class BST {
         return root;
     }
 
-    // ================= CARI DATA =================
+    // CARI DATA 
     Node search(Node root, int id) {
         // Jika kosong atau ketemu
         if (root == null || root.id == id) {
@@ -54,15 +54,18 @@ class BST {
         return search(root.right, id);
     }
 
-    // ================= HAPUS DATA =================
+    // HAPUS DATA 
     Node delete(Node root, int id) {
+
         if (root == null) return root;
 
         // Cari node yang akan dihapus
         if (id < root.id) {
             root.left = delete(root.left, id);
+
         } else if (id > root.id) {
             root.right = delete(root.right, id);
+
         } else {
             // Node ditemukan
 
@@ -74,6 +77,7 @@ class BST {
             // Kasus 2: satu anak
             else if (root.left == null) {
                 return root.right;
+                
             } else if (root.right == null) {
                 return root.left;
             }
@@ -101,18 +105,18 @@ class BST {
         return root;
     }
 
-    // ================= TRAVERSAL =================
+    // TRAVERSAL 
     void inorder(Node root) {
         if (root != null) {
             inorder(root.left);
-            System.out.println("ID: " + root.id + "- Nama: " + root.nama);
+            System.out.println("ID: " + root.id + " - Nama: " + root.nama);
             inorder(root.right);
         }
     }
 
     void preorder(Node root) {
         if (root != null) {
-            System.out.println("ID: " + root.id + "- Nama: " + root.nama);
+            System.out.println("ID: " + root.id + " - Nama: " + root.nama);
             preorder(root.left);
             preorder(root.right);
         }
@@ -122,7 +126,7 @@ class BST {
         if (root != null) {
             postorder(root.left);
             postorder(root.right);
-            System.out.println("ID: " + root.id + "- Nama: " + root.nama);
+            System.out.println("ID: " + root.id + " - Nama: " + root.nama);
         }
     }
 }
@@ -165,7 +169,8 @@ public class tugas_6 {
                     Node hasil = tree.search(tree.root, cari);
 
                     if (hasil != null) {
-                        System.out.println("Data ditemukan: " + hasil.id + " - " + hasil.nama);
+                        System.out.println("Data ditemukan");
+                        System.out.println("ID: " + hasil.id + " - Nama : " + hasil.nama);
                     } else {
                         System.out.println("Data tidak ditemukan.");
                     }
@@ -176,7 +181,7 @@ public class tugas_6 {
                     int hapus = input.nextInt();
 
                     tree.root = tree.delete(tree.root, hapus);
-                    System.out.println("Data berhasil dihapus (jika ada).");
+                    System.out.println("Data berhasil dihapus.");
                     break;
 
                 case 4:
