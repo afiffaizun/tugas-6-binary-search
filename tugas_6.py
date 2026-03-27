@@ -60,6 +60,7 @@ class BST:
             # Kasus 2: satu anak
             elif root.left is None:
                 return root.right
+            
             elif root.right is None:
                 return root.left
 
@@ -133,7 +134,7 @@ def main():
         elif pilihan == 3:
             id = int(input("Masukkan ID yang dihapus: "))
             tree.root = tree.delete(tree.root, id)
-            print("Data berhasil dihapus (jika ada).")
+            print("Data berhasil dihapus")
 
         elif pilihan == 4:
             print("Inorder:")

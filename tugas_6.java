@@ -180,8 +180,16 @@ public class tugas_6 {
                     System.out.print("Masukkan ID yang dihapus: ");
                     int hapus = input.nextInt();
 
-                    tree.root = tree.delete(tree.root, hapus);
-                    System.out.println("Data berhasil dihapus.");
+                    Node cek = tree.search(tree.root, hapus);
+
+                    if (cek != null) {
+                        tree.root = tree.delete(tree.root, hapus);
+                        System.out.println("Data berhasil dihapus.");
+
+                    } else {
+                        System.out.println("Data tidak ditemukan.");
+                    }
+                    
                     break;
 
                 case 4:
