@@ -107,10 +107,10 @@ class BST:
                         except ValueError:
                             print(f"Data salah: {row}")
 
-            print("✅ Import CSV berhasil!")
+            print("Import CSV berhasil!")
 
         except Exception as e:
-            print("❌ Error:", e)
+            print("Error:", e)
 
 
 # MAIN PROGRAM

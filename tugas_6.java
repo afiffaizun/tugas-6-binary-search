@@ -27,6 +27,7 @@ class BST {
 
         if (id < root.id) {
             root.left = insert(root.left, id, nama);
+
         } else if (id > root.id) {
             root.right = insert(root.right, id, nama);
         }
@@ -53,8 +54,10 @@ class BST {
 
         if (id < root.id) {
             root.left = delete(root.left, id);
+
         } else if (id > root.id) {
             root.right = delete(root.right, id);
+
         } else {
 
             // Tidak punya anak
@@ -65,6 +68,7 @@ class BST {
             // Satu anak
             else if (root.left == null) {
                 return root.right;
+                
             } else if (root.right == null) {
                 return root.left;
             }
@@ -139,10 +143,10 @@ class BST {
             }
 
             br.close();
-            System.out.println("✅ Import CSV berhasil!");
+            System.out.println("Import CSV berhasil!");
 
         } catch (Exception e) {
-            System.out.println("❌ Error: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 }
