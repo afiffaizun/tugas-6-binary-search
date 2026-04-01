@@ -1,12 +1,13 @@
 import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.FileReader;
 
-// Class Node untuk menyimpan data
+// CLASS NODE
 class Node {
     int id;
     String nama;
     Node left, right;
 
-    // Constructor
     Node(int id, String nama) {
         this.id = id;
         this.nama = nama;
@@ -14,90 +15,72 @@ class Node {
     }
 }
 
-
-// Class BST berisi semua operasi
+// CLASS BST
 class BST {
     Node root;
 
-    // TAMBAH DATA 
+    // INSERT
     Node insert(Node root, int id, String nama) {
-        // Jika kosong, buat node baru
         if (root == null) {
             return new Node(id, nama);
         }
 
-        // Rekursi ke kiri jika id lebih kecil
         if (id < root.id) {
             root.left = insert(root.left, id, nama);
-        }
-        // Rekursi ke kanan jika id lebih besar
-        else if (id > root.id) {
+        } else if (id > root.id) {
             root.right = insert(root.right, id, nama);
         }
 
         return root;
     }
 
-    // CARI DATA 
+    // SEARCH
     Node search(Node root, int id) {
-        // Jika kosong atau ketemu
         if (root == null || root.id == id) {
             return root;
         }
 
-        // Cari ke kiri
         if (id < root.id) {
             return search(root.left, id);
         }
 
-        // Cari ke kanan
         return search(root.right, id);
     }
 
-    // HAPUS DATA 
+    // DELETE
     Node delete(Node root, int id) {
-
         if (root == null) return root;
 
-        // Cari node yang akan dihapus
         if (id < root.id) {
             root.left = delete(root.left, id);
-
         } else if (id > root.id) {
             root.right = delete(root.right, id);
-
         } else {
-            // Node ditemukan
 
-            // Kasus 1: tidak punya anak
+            // Tidak punya anak
             if (root.left == null && root.right == null) {
                 return null;
             }
 
-            // Kasus 2: satu anak
+            // Satu anak
             else if (root.left == null) {
                 return root.right;
-                
             } else if (root.right == null) {
                 return root.left;
             }
 
-            // Kasus 3: dua anak
-            // Cari pengganti (nilai terkecil di kanan)
+            // Dua anak
             Node temp = minValue(root.right);
 
-            // Ganti nilai
             root.id = temp.id;
             root.nama = temp.nama;
 
-            // Hapus node pengganti
             root.right = delete(root.right, temp.id);
         }
 
         return root;
     }
 
-    // Cari node dengan nilai terkecil
     Node minValue(Node root) {
         while (root.left != null) {
             root = root.left;
@@ -105,7 +88,7 @@ class BST {
         return root;
     }
 
-    // TRAVERSAL 
+    // TRAVERSAL
     void inorder(Node root) {
         if (root != null) {
             inorder(root.left);
@@ -129,9 +112,42 @@ class BST {
             System.out.println("ID: " + root.id + " - Nama: " + root.nama);
         }
     }
+
+    // IMPORT CSV
+    void importCSV(String path) {
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(path));
+            String line;
+
+            // skip header
+            br.readLine();
+
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+
+                if (data.length >= 2) {
+                    try {
+                        int id = Integer.parseInt(data[0]);
+                        String nama = data[1];
+
+                        root = insert(root, id, nama);
+
+                    } catch (NumberFormatException e) {
+                        System.out.println("Data salah: " + line);
+                    }
+                }
+            }
+
+            br.close();
+            System.out.println("✅ Import CSV berhasil!");
+
+        } catch (Exception e) {
+            System.out.println("❌ Error: " + e.getMessage());
+        }
+    }
 }
 
-
+// MAIN CLASS
 public class tugas_6 {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
@@ -143,79 +159,73 @@ public class tugas_6 {
             System.out.println("1. Tambah Data");
             System.out.println("2. Cari Data");
             System.out.println("3. Hapus Data");
-            System.out.println("4. Tampilkan Inorder");
-            System.out.println("5. Tampilkan Preorder");
-            System.out.println("6. Tampilkan Postorder");
-            System.out.println("7. Keluar");
+            System.out.println("4. Inorder");
+            System.out.println("5. Preorder");
+            System.out.println("6. Postorder");
+            System.out.println("7. Import CSV");
+            System.out.println("8. Keluar");
             System.out.print("Pilih: ");
             pilihan = input.nextInt();
 
             switch (pilihan) {
                 case 1:
-                    System.out.print("Masukkan ID: ");
+                    System.out.print("ID: ");
                     int id = input.nextInt();
-                    input.nextLine(); // buang newline
-                    System.out.print("Masukkan Nama: ");
+                    input.nextLine();
+
+                    System.out.print("Nama: ");
                     String nama = input.nextLine();
 
                     tree.root = tree.insert(tree.root, id, nama);
-                    System.out.println("Data berhasil ditambahkan!");
                     break;
 
                 case 2:
-                    System.out.print("Masukkan ID yang dicari: ");
+                    System.out.print("Cari ID: ");
                     int cari = input.nextInt();
 
                     Node hasil = tree.search(tree.root, cari);
 
                     if (hasil != null) {
-                        System.out.println("Data ditemukan");
-                        System.out.println("ID: " + hasil.id + " - Nama : " + hasil.nama);
+                        System.out.println("Ditemukan: " + hasil.nama);
                     } else {
-                        System.out.println("Data tidak ditemukan.");
+                        System.out.println("Tidak ditemukan");
                     }
                     break;
 
                 case 3:
-                    System.out.print("Masukkan ID yang dihapus: ");
+                    System.out.print("Hapus ID: ");
                     int hapus = input.nextInt();
 
-                    Node cek = tree.search(tree.root, hapus);
-
-                    if (cek != null) {
-                        tree.root = tree.delete(tree.root, hapus);
-                        System.out.println("Data berhasil dihapus.");
-
-                    } else {
-                        System.out.println("Data tidak ditemukan.");
-                    }
-                    
+                    tree.root = tree.delete(tree.root, hapus);
+                    System.out.println("Data dihapus");
                     break;
 
                 case 4:
-                    System.out.println("Inorder:");
                     tree.inorder(tree.root);
                     break;
 
                 case 5:
-                    System.out.println("Preorder:");
                     tree.preorder(tree.root);
                     break;
 
                 case 6:
-                    System.out.println("Postorder:");
                     tree.postorder(tree.root);
                     break;
 
                 case 7:
-                    System.out.println("Program selesai.");
+                    input.nextLine();
+                    System.out.print("Path CSV: ");
+                    String path = input.nextLine();
+
+                    tree.importCSV(path);
                     break;
 
-                default:
-                    System.out.println("Pilihan tidak valid!");
+                case 8:
+                    System.out.println("Program selesai");
+                    break;
             }
 
-        } while (pilihan != 7);
+        } while (pilihan != 8);
 
         input.close();
     }

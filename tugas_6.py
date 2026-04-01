@@ -1,37 +1,33 @@
-# Class Node
+import csv
+
+# CLASS NODE
 class Node:
-    def __init__(self, id, nama): #parameter
-        #atribut
+    def __init__(self, id, nama):
         self.id = id
         self.nama = nama
         self.left = None
         self.right = None
 
 
-# Class BST
+# CLASS BST
 class BST:
     def __init__(self):
         self.root = None
 
-    # TAMBAH DATA 
+    # INSERT
     def insert(self, root, id, nama):
-        # Jika kosong, buat node baru
         if root is None:
             return Node(id, nama)
 
-        # Rekursi ke kiri
         if id < root.id:
             root.left = self.insert(root.left, id, nama)
-
-        # Rekursi ke kanan
         elif id > root.id:
             root.right = self.insert(root.right, id, nama)
 
         return root
 
-    # CARI DATA 
+    # SEARCH
     def search(self, root, id):
-        # Jika kosong atau ditemukan
         if root is None or root.id == id:
             return root
 
@@ -40,56 +36,49 @@ class BST:
 
         return self.search(root.right, id)
 
-    # HAPUS DATA 
+    # DELETE
     def delete(self, root, id):
         if root is None:
             return root
 
-        # Cari node
         if id < root.id:
             root.left = self.delete(root.left, id)
         elif id > root.id:
             root.right = self.delete(root.right, id)
         else:
-            # Node ditemukan
-
-            # Kasus 1: tidak punya anak
+            # Tidak punya anak
             if root.left is None and root.right is None:
                 return None
 
-            # Kasus 2: satu anak
-            elif root.left is None:
+            # Satu anak
+            if root.left is None:
                 return root.right
-            
             elif root.right is None:
                 return root.left
 
-            # Kasus 3: dua anak
+            # Dua anak
             temp = self.min_value(root.right)
-
             root.id = temp.id
             root.nama = temp.nama
-
             root.right = self.delete(root.right, temp.id)
 
         return root
 
-    # Cari nilai terkecil
     def min_value(self, root):
         while root.left:
             root = root.left
         return root
 
-    # TRAVERSAL 
+    # TRAVERSAL
     def inorder(self, root):
         if root:
             self.inorder(root.left)
-            print("ID: ", root.id, "- Nama: ", root.nama)
+            print(f"ID: {root.id} - Nama: {root.nama}")
             self.inorder(root.right)
 
     def preorder(self, root):
         if root:
-            print("ID: ", root.id, "- Nama: ", root.nama)
+            print(f"ID: {root.id} - Nama: {root.nama}")
             self.preorder(root.left)
             self.preorder(root.right)
 
@@ -97,9 +86,34 @@ class BST:
         if root:
             self.postorder(root.left)
             self.postorder(root.right)
-            print("ID: ", root.id, "- Nama: ", root.nama)
+            print(f"ID: {root.id} - Nama: {root.nama}")
+
+    # IMPORT CSV
+    def import_csv(self, path):
+        try:
+            with open(path, newline='') as file:
+                reader = csv.reader(file)
+
+                next(reader)  # skip header
+
+                for row in reader:
+                    if len(row) >= 2:
+                        try:
+                            id = int(row[0])
+                            nama = row[1]
+
+                            self.root = self.insert(self.root, id, nama)
+
+                        except ValueError:
+                            print(f"Data salah: {row}")
+
+            print("✅ Import CSV berhasil!")
+
+        except Exception as e:
+            print("❌ Error:", e)
 
 
+# MAIN PROGRAM
 def main():
     tree = BST()
 
@@ -111,51 +125,50 @@ def main():
         print("4. Inorder")
         print("5. Preorder")
         print("6. Postorder")
-        print("7. Keluar")
+        print("7. Import CSV")
+        print("8. Keluar")
 
-        pilihan = int(input("Pilih: "))
+        pilihan = input("Pilih: ")
 
-        if pilihan == 1:
-            id = int(input("Masukkan ID: "))
-            nama = input("Masukkan Nama: ")
+        if pilihan == "1":
+            id = int(input("ID: "))
+            nama = input("Nama: ")
             tree.root = tree.insert(tree.root, id, nama)
-            print("Data berhasil ditambahkan!")
 
-        elif pilihan == 2:
-            id = int(input("Masukkan ID yang dicari: "))
-            hasil = tree.search(tree.root, id)
+        elif pilihan == "2":
+            cari = int(input("Cari ID: "))
+            hasil = tree.search(tree.root, cari)
 
             if hasil:
-                print("Data ditemukan")
-                print("ID: ", hasil.id, " - Nama : ", hasil.nama)
+                print(f"Ditemukan: {hasil.nama}")
             else:
-                print("Data tidak ditemukan.")
+                print("Tidak ditemukan")
 
-        elif pilihan == 3:
-            id = int(input("Masukkan ID yang dihapus: "))
-            tree.root = tree.delete(tree.root, id)
-            print("Data berhasil dihapus")
+        elif pilihan == "3":
+            hapus = int(input("Hapus ID: "))
+            tree.root = tree.delete(tree.root, hapus)
+            print("Data dihapus")
 
-        elif pilihan == 4:
-            print("Inorder:")
+        elif pilihan == "4":
             tree.inorder(tree.root)
 
-        elif pilihan == 5:
-            print("Preorder:")
+        elif pilihan == "5":
             tree.preorder(tree.root)
 
-        elif pilihan == 6:
-            print("Postorder:")
+        elif pilihan == "6":
             tree.postorder(tree.root)
 
-        elif pilihan == 7:
-            print("Program selesai.")
+        elif pilihan == "7":
+            path = input("Path CSV: ")
+            tree.import_csv(path)
+
+        elif pilihan == "8":
+            print("Program selesai")
             break
 
         else:
             print("Pilihan tidak valid!")
 
 
-# Jalankan program
 if __name__ == "__main__":
     main()

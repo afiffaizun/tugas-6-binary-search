@@ -1,26 +1,54 @@
-Buatkan program Java menggunakan struktur data Binary Search Tree (BST) dengan gaya penulisan yang sederhana dan mudah dipahami oleh pemula.
+Buatlah program Binary Search Tree (BST) menggunakan bahasa pemrograman Java/Python dengan ketentuan sebagai berikut:
 
-Program harus bisa menyimpan data berupa ID (integer) dan Nama (string), di mana ID digunakan sebagai acuan utama dalam BST.
+1. Program harus memiliki class Node yang berisi:
 
-Fitur yang harus ada:
+   * id (integer)
+   * nama (string)
+   * left dan right (pointer ke node lain)
 
-1. Tambah data (input ID dan Nama secara manual dari user)
-2. Cari data berdasarkan ID
-3. Hapus data berdasarkan ID
-4. Traversal data:
+2. Program harus memiliki class BST yang mendukung operasi:
 
-   * Inorder
-   * Preorder
-   * Postorder
+   * Insert (menambahkan data berdasarkan id)
+   * Search (mencari data berdasarkan id)
+   * Delete (menghapus data berdasarkan id, termasuk kasus:
+     a. tidak punya anak
+     b. satu anak
+     c. dua anak)
+   * Traversal:
+     a. Inorder
+     b. Preorder
+     c. Postorder
 
-Tambahkan menu interaktif menggunakan Scanner agar user bisa memilih fitur (tambah, cari, hapus, traversal, keluar).
+3. Program harus bisa membaca data dari file CSV dengan format:
+   id,nama
+   10,Andi
+   5,Budi
+   20,Siti
 
-Gunakan struktur kode yang rapi dan terpisah:
+4. Tambahkan fungsi import_csv(path) untuk:
 
-* Class Node
-* Class BST (berisi semua operasi)
-* Class Main (untuk menjalankan program)
+   * Membaca file CSV
+   * Melewati header
+   * Memasukkan data ke dalam BST
 
-Gunakan konsep rekursi untuk operasi BST, dan berikan komentar singkat di bagian penting agar mudah dipelajari.
+5. Program harus memiliki menu interaktif:
 
-Buat output yang jelas dan mudah dibaca, misalnya menampilkan "ID: ..., Nama: ...".
+   1. Tambah Data
+   2. Cari Data
+   3. Hapus Data
+   4. Tampilkan Inorder
+   5. Tampilkan Preorder
+   6. Tampilkan Postorder
+   7. Import dari CSV
+   8. Keluar
+
+6. Program harus menangani error seperti:
+
+   * File tidak ditemukan
+   * Format data salah
+   * ID bukan angka
+
+7. Gunakan library bawaan Python (csv) tanpa library eksternal.
+
+Tujuan:
+Melatih pemahaman struktur data Binary Search Tree serta implementasi pembacaan file eksternal (CSV).
