@@ -8,6 +8,7 @@ class Node {
     String nama;
     Node left, right;
 
+    // constructor
     Node(int id, String nama) {
         this.id = id;
         this.nama = nama;
@@ -74,6 +75,7 @@ class BST {
             }
 
             // Dua anak
+            // ambil nilai terkecil kanan
             Node temp = minValue(root.right);
 
             root.id = temp.id;
@@ -126,6 +128,7 @@ class BST {
             // skip header
             br.readLine();
 
+            // membaca file
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
 

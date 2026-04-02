@@ -21,6 +21,7 @@ class BST:
 
         if id < root.id:
             root.left = self.insert(root.left, id, nama)
+
         elif id > root.id:
             root.right = self.insert(root.right, id, nama)
 
@@ -96,6 +97,7 @@ class BST:
 
                 next(reader)  # skip header
 
+                # loop setiap baris
                 for row in reader:
                     if len(row) >= 2:
                         try:
