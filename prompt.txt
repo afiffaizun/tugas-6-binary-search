@@ -1,54 +1,59 @@
-Buatlah program Binary Search Tree (BST) menggunakan bahasa pemrograman Java/Python dengan ketentuan sebagai berikut:
+Buatkan program AVL Tree lengkap menggunakan bahasa pemrograman Java atau Python.
 
-1. Program harus memiliki class Node yang berisi:
+Spesifikasi program:
 
-   * id (integer)
-   * nama (string)
-   * left dan right (pointer ke node lain)
+1. Gunakan konsep OOP (Object-Oriented Programming):
 
-2. Program harus memiliki class BST yang mendukung operasi:
+   * Class Node (atribut: id, nama, height, left, right)
+   * Class AVL Tree (berisi semua operasi)
 
-   * Insert (menambahkan data berdasarkan id)
-   * Search (mencari data berdasarkan id)
-   * Delete (menghapus data berdasarkan id, termasuk kasus:
-     a. tidak punya anak
-     b. satu anak
-     c. dua anak)
+2. Implementasikan fitur berikut:
+
+   * Insert data (dengan balancing AVL: LL, RR, LR, RL)
+   * Delete data (dengan rebalancing)
+   * Search berdasarkan ID
    * Traversal:
-     a. Inorder
-     b. Preorder
-     c. Postorder
 
-3. Program harus bisa membaca data dari file CSV dengan format:
-   id,nama
-   10,Andi
-   5,Budi
-   20,Siti
+     * Inorder
+     * Preorder
+     * Postorder
 
-4. Tambahkan fungsi import_csv(path) untuk:
+3. Tambahkan fungsi pendukung AVL:
 
-   * Membaca file CSV
-   * Melewati header
-   * Memasukkan data ke dalam BST
+   * Menghitung height node
+   * Menghitung balance factor
+   * Rotasi:
 
-5. Program harus memiliki menu interaktif:
+     * Left Rotate
+     * Right Rotate
+
+4. Tambahkan fitur import data dari file CSV:
+
+   * Format CSV: id,nama
+   * Skip header
+   * Validasi jika data tidak sesuai
+
+5. Buat menu interaktif di terminal/console:
 
    1. Tambah Data
    2. Cari Data
    3. Hapus Data
-   4. Tampilkan Inorder
-   5. Tampilkan Preorder
-   6. Tampilkan Postorder
-   7. Import dari CSV
+   4. Inorder
+   5. Preorder
+   6. Postorder
+   7. Import CSV
    8. Keluar
 
-6. Program harus menangani error seperti:
+6. Gunakan input dari user (Scanner untuk Java / input() untuk Python)
 
-   * File tidak ditemukan
-   * Format data salah
-   * ID bukan angka
+7. Berikan full code yang bisa langsung dijalankan (tanpa error)
 
-7. Gunakan library bawaan Python (csv) tanpa library eksternal.
+8. Tambahkan contoh file CSV dan cara menjalankan program
 
-Tujuan:
-Melatih pemahaman struktur data Binary Search Tree serta implementasi pembacaan file eksternal (CSV).
+9. Gunakan kode yang rapi, mudah dibaca, dan beri komentar pada bagian penting
+
+Output yang diharapkan:
+
+* Full source code
+* Penjelasan singkat cara menjalankan
+* Contoh CSV

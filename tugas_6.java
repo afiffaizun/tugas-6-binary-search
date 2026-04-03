@@ -2,35 +2,166 @@ import java.util.Scanner;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
-// CLASS NODE
+// CLASS NODE AVL
 class Node {
     int id;
     String nama;
+    int height;
     Node left, right;
 
-    // constructor
     Node(int id, String nama) {
         this.id = id;
         this.nama = nama;
+        this.height = 1;
         left = right = null;
     }
 }
 
-// CLASS BST
-class BST {
+// CLASS AVL TREE
+class AVL {
     Node root;
 
-    // INSERT
-    Node insert(Node root, int id, String nama) {
-        if (root == null) {
+    // HEIGHT
+    int height(Node n) {
+        return (n == null) ? 0 : n.height;
+    }
+
+    // BALANCE FACTOR
+    // -1, 0, atau 1 maka seimbang
+    int getBalance(Node n) {
+        return (n == null) ? 0 : height(n.left) - height(n.right);
+    }
+
+    // RIGHT ROTATE
+    Node rightRotate(Node y) {
+        Node x = y.left; // ambil anak kiri dan jadikan node
+        Node T2 = x.right; // simpan subtree kanan dari x
+
+        x.right = y; // jadikan y sebagai anak kanan
+        y.left = T2; 
+
+        y.height = Math.max(height(y.left), height(y.right)) + 1;
+        x.height = Math.max(height(x.left), height(x.right)) + 1;
+
+        return x;
+    }
+
+    // LEFT ROTATE             // contoh
+    Node leftRotate(Node x) { // x = 10
+        Node y = x.right;  // y = 20
+        Node T2 = y.left; // T2 = null
+
+        y.left = x;
+        x.right = T2;
+
+        x.height = Math.max(height(x.left), height(x.right)) + 1;
+        y.height = Math.max(height(y.left), height(y.right)) + 1;
+
+        return y;
+    }
+
+    // INSERT AVL
+    Node insert(Node node, int id, String nama) {
+        if (node == null)
             return new Node(id, nama);
+
+        if (id < node.id)
+            node.left = insert(node.left, id, nama);
+        else if (id > node.id)
+            node.right = insert(node.right, id, nama);
+        else
+            return node;
+
+        // update height node
+        node.height = 1 + Math.max(height(node.left), height(node.right));
+
+        //hitung balance faktor
+        int balance = getBalance(node);
+
+        // Left berat
+        if (balance > 1 && id < node.left.id)
+            return rightRotate(node);
+
+        // kanan berat
+        if (balance < -1 && id > node.right.id)
+            return leftRotate(node);
+
+        // kombinasi kedua
+        if (balance > 1 && id > node.left.id) {
+            node.left = leftRotate(node.left); // rotasi kiri dulu baru kanan
+            return rightRotate(node);
         }
 
-        if (id < root.id) {
-            root.left = insert(root.left, id, nama);
+        // RL
+        if (balance < -1 && id < node.right.id) {
+            node.right = rightRotate(node.right);
+            return leftRotate(node);
+        }
 
-        } else if (id > root.id) {
-            root.right = insert(root.right, id, nama);
+        return node;
+    }
+
+    // MIN VALUE
+    Node minValue(Node node) {
+        Node current = node;
+        while (current.left != null)
+            current = current.left;
+        return current;
+    }
+
+    // DELETE AVL
+    Node delete(Node root, int id) {
+        if (root == null)
+            return root;
+
+        if (id < root.id)
+            root.left = delete(root.left, id);
+        else if (id > root.id)
+            root.right = delete(root.right, id);
+        else {
+            if ((root.left == null) || (root.right == null)) {
+                Node temp = (root.left != null) ? root.left : root.right;
+
+                if (temp == null) {
+                    root = null;
+                } else {
+                    root = temp;
+                }
+            } else {
+                Node temp = minValue(root.right);
+
+                root.id = temp.id;
+                root.nama = temp.nama;
+
+                root.right = delete(root.right, temp.id);
+            }
+        }
+
+        if (root == null)
+            return root;
+
+        root.height = 1 + Math.max(height(root.left), height(root.right));
+
+        int balance = getBalance(root);
+
+        // LL
+        if (balance > 1 && getBalance(root.left) >= 0)
+            return rightRotate(root);
+
+        // LR
+        if (balance > 1 && getBalance(root.left) < 0) {
+            root.left = leftRotate(root.left);
+            return rightRotate(root);
+        }
+
+        // RR
+        if (balance < -1 && getBalance(root.right) <= 0)
+            return leftRotate(root);
+
+        // RL
+        if (balance < -1 && getBalance(root.right) > 0) {
+            root.right = rightRotate(root.right);
+            return leftRotate(root);
         }
 
         return root;
@@ -38,60 +169,13 @@ class BST {
 
     // SEARCH
     Node search(Node root, int id) {
-        if (root == null || root.id == id) {
+        if (root == null || root.id == id)
             return root;
-        }
 
-        if (id < root.id) {
+        if (id < root.id)
             return search(root.left, id);
-        }
 
         return search(root.right, id);
-    }
-
-    // DELETE
-    Node delete(Node root, int id) {
-        if (root == null) return root;
-
-        if (id < root.id) {
-            root.left = delete(root.left, id);
-
-        } else if (id > root.id) {
-            root.right = delete(root.right, id);
-
-        } else {
-
-            // Tidak punya anak
-            if (root.left == null && root.right == null) {
-                return null;
-            }
-
-            // Satu anak
-            else if (root.left == null) {
-                return root.right;
-                
-            } else if (root.right == null) {
-                return root.left;
-            }
-
-            // Dua anak
-            // ambil nilai terkecil kanan
-            Node temp = minValue(root.right);
-
-            root.id = temp.id;
-            root.nama = temp.nama;
-
-            root.right = delete(root.right, temp.id);
-        }
-
-        return root;
-    }
-
-    Node minValue(Node root) {
-        while (root.left != null) {
-            root = root.left;
-        }
-        return root;
     }
 
     // TRAVERSAL
@@ -125,10 +209,8 @@ class BST {
             BufferedReader br = new BufferedReader(new FileReader(path));
             String line;
 
-            // skip header
-            br.readLine();
+            br.readLine(); // skip header
 
-            // membaca file
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
 
@@ -158,11 +240,11 @@ class BST {
 public class tugas_6 {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-        BST tree = new BST();
+        AVL tree = new AVL();
         int pilihan;
 
         do {
-            System.out.println("\n=== MENU BST ===");
+            System.out.println("\n=== MENU AVL TREE ===");
             System.out.println("1. Tambah Data");
             System.out.println("2. Cari Data");
             System.out.println("3. Hapus Data");
@@ -192,11 +274,10 @@ public class tugas_6 {
 
                     Node hasil = tree.search(tree.root, cari);
 
-                    if (hasil != null) {
+                    if (hasil != null)
                         System.out.println("Ditemukan: " + hasil.nama);
-                    } else {
+                    else
                         System.out.println("Tidak ditemukan");
-                    }
                     break;
 
                 case 3:
