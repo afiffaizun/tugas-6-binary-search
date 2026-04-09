@@ -2,7 +2,6 @@ import java.util.Scanner;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
-// CLASS NODE AVL
 class Node {
     int id;
     String nama;
@@ -17,7 +16,7 @@ class Node {
     }
 }
 
-// CLASS AVL TREE
+
 class AVL {
     Node root;
 
@@ -26,19 +25,18 @@ class AVL {
         return (n == null) ? 0 : n.height;
     }
 
-    // BALANCE FACTOR
+    // Keseimbangan
     // -1, 0, atau 1 maka seimbang
     int getBalance(Node n) {
         return (n == null) ? 0 : height(n.left) - height(n.right);
     }
 
-    // RIGHT ROTATE
     Node rightRotate(Node y) {
         Node x = y.left; // ambil anak kiri dan jadikan node
         Node T2 = x.right; // simpan subtree kanan dari x
 
         x.right = y; // jadikan y sebagai anak kanan
-        y.left = T2; 
+        y.left = T2; // T2 jadikan anak kiri y
 
         y.height = Math.max(height(y.left), height(y.right)) + 1;
         x.height = Math.max(height(x.left), height(x.right)) + 1;
@@ -46,10 +44,9 @@ class AVL {
         return x;
     }
 
-    // LEFT ROTATE             // contoh
-    Node leftRotate(Node x) { // x = 10
-        Node y = x.right;  // y = 20
-        Node T2 = y.left; // T2 = null
+    Node leftRotate(Node x) { 
+        Node y = x.right;  // y jadi root baru
+        Node T2 = y.left; // simpan subtree kiri y
 
         y.left = x;
         x.right = T2;
@@ -119,21 +116,25 @@ class AVL {
         else if (id > root.id)
             root.right = delete(root.right, id);
         else {
+
+            // case node dengan 0 atau 1 anak
             if ((root.left == null) || (root.right == null)) {
                 Node temp = (root.left != null) ? root.left : root.right;
 
                 if (temp == null) {
-                    root = null;
+                    root = null; // no child
                 } else {
-                    root = temp;
+                    root = temp; // anak 1
                 }
             } else {
-                Node temp = minValue(root.right);
 
-                root.id = temp.id;
+                // case node 2 child
+                Node temp = minValue(root.right); // pilih child kanan
+
+                root.id = temp.id;  // copy menjadi root id
                 root.nama = temp.nama;
 
-                root.right = delete(root.right, temp.id);
+                root.right = delete(root.right, temp.id); //baru hapus
             }
         }
 

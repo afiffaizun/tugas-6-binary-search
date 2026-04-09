@@ -1,6 +1,5 @@
 import csv
 
-# CLASS NODE
 class Node:
     def __init__(self, id, nama):
         self.id = id
@@ -10,7 +9,6 @@ class Node:
         self.right = None
 
 
-# CLASS AVL TREE
 class AVL:
     def __init__(self):
         self.root = None
